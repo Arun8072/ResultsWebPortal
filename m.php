@@ -58,14 +58,14 @@ echo '<center id="tbl" style="padding-top:10%;">
 
  //explode the line into array of words identified by comma
   
- $s1=explode(",",$r["Sem1a"]);
- $s2=explode(",",$r["Sem2a"]);
- $s3=explode(",",$r["Sem3a"]);
- $s4=explode(",",$r["Sem4a"]);
- $s5=explode(",",$r["Sem5a"]); 
- $s6=explode(",",$r["Sem6a"]);
- $s7=explode(",",$r["Sem7a"]);
- $s8=explode(",",$r["Sem8a"]);
+ $s1=explode(",",$r["Sem1"]);
+ $s2=explode(",",$r["Sem2"]);
+ $s3=explode(",",$r["Sem3"]);
+ $s4=explode(",",$r["Sem4"]);
+ $s5=explode(",",$r["Sem5"]); 
+ $s6=explode(",",$r["Sem6"]);
+ $s7=explode(",",$r["Sem7"]);
+ $s8=explode(",",$r["Sem8"]);
 
 
 
@@ -121,6 +121,8 @@ echo '<section>'.count($ss).'</section></article>';
 }
 echo '</center>';
 
-
-echo '<br><br><center> <button style="font-size:20px; border-radius:5px;"> <a style="color:grey; text-decoration:none;" href="d.php">Download Page »</a> </button> </center> <br>';
+ $reg=$_GET["RegNo"];
+echo '<br><br><center> <button style="font-size:20px; border-radius:5px;"> <a style="color:grey; text-decoration:none;" href="create_pdf.php?RegNo='.$reg.'">Download Page »</a> </button> </center> <br>';
 ?>
+
+

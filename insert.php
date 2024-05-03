@@ -5,7 +5,7 @@
 $conn = new  mysqli("localhost", "root", "");
 	
 	// Create database
-$sql = "CREATE DATABASE mytabsgkhjne";
+$sql = "CREATE DATABASE mark";
 if ($conn->query($sql) === TRUE) {
   echo "Database created successfully" , '<br>' ;
 } else {
@@ -14,7 +14,7 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 
-$conn = new  mysqli("localhost", "root", "" , "mytabsgkhjne");
+$conn = new  mysqli("localhost", "root", "" , "mark");
 
 // Check connection
 if ($conn->connect_error) {
@@ -44,7 +44,7 @@ if ($conn->query($sql) === TRUE) {
 
 for ($i=0; $i < 10; $i++) { 
 
-$sql = " INSERT INTO marks (Regno, Name, Sem1, Sem2, Sem3, Sem4, Sem5, Sem6, Sem7, Sem8, Total) VALUES ('6201171040{$i}', 'Arunvignesh', 'english,tamil,hindi', 'english', 'social,history', 'gk,moral,physics,chemistry,computer', '', '', '', '', '11') ";
+$sql = " INSERT INTO marks (Regno, Name, Sem1, Sem2, Sem3, Sem4, Sem5, Sem6, Sem7, Sem8, Total) VALUES ('62011710400{$i}', 'Arunvignesh', 'MA3151,GE3151,PH3151', 'MA3251,BE3251', 'CS3351,CS3301', 'CS3451', 'CB3491', 'CS3691', '', '', '10') ";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record {$i} created successfully", '<br>';
