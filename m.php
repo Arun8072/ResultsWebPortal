@@ -11,6 +11,7 @@ $r=preg_replace("/[^0-9]/", "",$_GET['RegNo']);
 $sql = "SELECT * FROM Marks where Regno='$r' " ;
 
 $t = $conn->query($sql);
+
 echo '<head><title>Arrear Details</title><meta name="viewport" content="width=device-width, initial-scale=1"></head><style>
 @font-face {
  font-family:Montserrat-Regular;
@@ -52,8 +53,11 @@ echo '<center id="tbl" style="padding-top:10%;">
   </thead> 
  <tbody style="line-height:25px;" >';
  
-$r = $t->fetch_assoc();
+
+  $r = $t->fetch_assoc();
+
  //explode the line into array of words identified by comma
+  
  $s1=explode(",",$r["Sem1a"]);
  $s2=explode(",",$r["Sem2a"]);
  $s3=explode(",",$r["Sem3a"]);
@@ -62,19 +66,37 @@ $r = $t->fetch_assoc();
  $s6=explode(",",$r["Sem6a"]);
  $s7=explode(",",$r["Sem7a"]);
  $s8=explode(",",$r["Sem8a"]);
-for($i=0;$i<6;$i++){
-//Capitalize first letter
- echo '<tr>';
-echo '<td>'.ucfirst($s1[$i]).'</td>';
-echo '<td>'.ucfirst($s2[$i]).'</td>';
-echo '<td>'.ucfirst($s3[$i]).'</td>';
-echo '<td>'.ucfirst($s4[$i]).'</td>';
-echo '<td>'.ucfirst($s5[$i]).'</td>';
-echo '<td>'.ucfirst($s6[$i]).'</td>';
-echo '<td>'.ucfirst($s7[$i]).'</td>';
-echo '<td>'.ucfirst($s8[$i]).'</td>';
-  echo '</tr>';
+
+// error when fetching data from empty cell of database ,fandle it 
+
+/*+++++++++++++++++++++++++++++++++++=++++*/
+
+$ar=[$s1,$s2,$s3,$s4,$s5,$s6,$s7,$s8];
+
+for($j=0;$j<count($ar);$j++) {
+   $total_count[$j]=count($ar[$j]);
+   $max_count=max($total_count);
+ }
+
+
+/*+++++++++++++++++++++++++++++++++++=++++*/
+
+ //error forloop ,loop according to count, definit it as 6 makes error ,use foreach 
+for($i=0;$i<$max_count;$i++){
+  //ucfirst - Capitalize first letter
+echo '<tr>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '</tr>';
 }
+
+
  echo '<tr style="text-align:center;">
   <td>'.count($s1).'</td> 
   <td>'.count($s2).'</td> 
@@ -85,9 +107,11 @@ echo '<td>'.ucfirst($s8[$i]).'</td>';
   <td>'.count($s7).'</td> 
   <td>'.count($s8).'</td> 
    </tr>';
-      
+
 echo '</tbody> </table> </center> ';
+ 
 //following are same content which displayed only on mobile
+ echo "";
 echo '<center id="atl" >';
 $ar=[$s1,$s2,$s3,$s4,$s5,$s6,$s7,$s8];
 $i=0;
@@ -99,6 +123,7 @@ echo '<section>'.ucfirst($s).'</section>';
 echo '<section>'.count($ss).'</section></article>';
 }
 echo '</center>';
+
 
 echo '<br><br><center> <button style="font-size:20px; border-radius:5px;"> <a style="color:grey; text-decoration:none;" href="d.php">Download Page »</a> </button> </center> <br>';
 ?>
