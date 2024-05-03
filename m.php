@@ -67,9 +67,7 @@ echo '<center id="tbl" style="padding-top:10%;">
  $s7=explode(",",$r["Sem7a"]);
  $s8=explode(",",$r["Sem8a"]);
 
-// error when fetching data from empty cell of database ,fandle it 
 
-/*+++++++++++++++++++++++++++++++++++=++++*/
 
 $ar=[$s1,$s2,$s3,$s4,$s5,$s6,$s7,$s8];
 
@@ -79,20 +77,19 @@ for($j=0;$j<count($ar);$j++) {
  }
 
 
-/*+++++++++++++++++++++++++++++++++++=++++*/
-
  //error forloop ,loop according to count, definit it as 6 makes error ,use foreach 
 for($i=0;$i<$max_count;$i++){
   //ucfirst - Capitalize first letter
+  // check if variable is empty and display otherwise it makes error
 echo '<tr>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
-echo '<td>'. ucfirst($s1[$i]) .'</td>';
+echo '<td>';  if (!empty($s1[$i])) { echo ucfirst($s1[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s2[$i])) { echo ucfirst($s2[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s3[$i])) { echo ucfirst($s3[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s4[$i])) { echo ucfirst($s4[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s5[$i])) { echo ucfirst($s5[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s6[$i])) { echo ucfirst($s6[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s7[$i])) { echo ucfirst($s7[$i]); }else{ echo "-"; } echo '</td>';
+echo '<td>';  if (!empty($s8[$i])) { echo ucfirst($s8[$i]); }else{ echo "-"; } echo '</td>';
 echo '</tr>';
 }
 
