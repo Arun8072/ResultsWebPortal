@@ -1,0 +1,42 @@
+<!-- index.html -->
+
+<html>
+<head>
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="files/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Login Form Title -->
+        <div class="title">
+            Login Form
+        </div>
+        <br>
+        <!-- Login Form -->
+        <form action="total.php" method="POST">
+            <!-- Input field for Register Number -->
+            <div class="field">
+                <input type="number" name="Reg" placeholder="Enter Register Number" required autofocus>
+            </div>
+            <br>
+            <!-- Input field for Student Name -->
+            <div class="field">
+                <input type="text" name="Name" placeholder="Enter Student Name" required>
+            </div>
+            <br>
+            <!-- Input field for Date of Birth -->
+            <div class="field">
+                <!-- DOB added just to avoid others sneaking into the user's account -->
+                <input type="text" name="Date" placeholder="Date Of Birth" onfocus="(this.type='date')" required>
+            </div>
+            <br>
+            <!-- Submit button -->
+            <div class="field">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
