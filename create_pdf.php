@@ -1,5 +1,7 @@
 <?php
+
 require('fpdf186/fpdf.php');
+
 
 class PDF extends FPDF
 {
@@ -113,7 +115,8 @@ $pdf->SetFont('Arial','',14);
 $pdf->AddPage();
 
 /*===================================================*/
-$conn = new  mysqli("localhost", "root", "","Mark");
+
+$conn = new mysqli("localhost", "id21666751_markdatabase", "Arun_marks1.4", "id21666751_marks");
 
 $r=preg_replace("/[^0-9]/", "",$_GET['RegNo']);
 //$n=$_GET['Name'];
