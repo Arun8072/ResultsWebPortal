@@ -97,54 +97,57 @@
     </div>
 
     <?php
-    // Validate and sanitize input data
-    function sanitizeInput($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
+ // Validate and sanitize input data
+ function sanitizeInput($data)
+ {
+     $data = trim($data);
+     $data = stripslashes($data);
+     $data = htmlspecialchars($data);
+     return $data;
+ }
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Database connection details
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mark";
+ if ($_SERVER["REQUEST_METHOD"] === "POST") {
+     // Database connection details
+     $servername = "localhost";
+     $username = "root";
+     $password = "";
+     $dbname = "mark";
 
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+     // Create connection
+     $conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+     // Check connection
+     if ($conn->connect_error) {
+         die("Connection failed: " . $conn->connect_error);
+     }
 
-        // Sanitize input data
-        $name = sanitizeInput($_POST["Name"]);
-        $regNo = sanitizeInput($_POST["RegNo"]);
+     // Sanitize input data
+     $name = sanitizeInput($_POST["Name"]);
+     $regNo = sanitizeInput($_POST["RegNo"]);
 
-        // Array to store semester marks
-        $semesterMarks = array();
-        $totalMarks = 0;
+     // Array to store semester marks
+     $semesterMarks = [];
+     $totalMarks = 0;
 
-        // Validate and sanitize marks for each semester
-        for ($semester = 1; $semester <= 8; $semester++) {
-            $semesterKey = "Sem" . $semester;
-            if (isset($_POST[$semesterKey])) {
-                $subjectsInput = sanitizeInput($_POST[$semesterKey]);
-                $subjectsArray = explode(',', $subjectsInput);
-                $totalMarks += count(array_filter(array_map('trim', $subjectsArray)));
-            }
-        }
+     // Validate and sanitize marks for each semester
+     for ($semester = 1; $semester <= 8; $semester++) {
+         $semesterKey = "Sem" . $semester;
+         if (isset($_POST[$semesterKey])) {
+             $subjectsInput = sanitizeInput($_POST[$semesterKey]);
+             $subjectsArray = explode(",", $subjectsInput);
+             $totalMarks += count(
+                 array_filter(array_map("trim", $subjectsArray))
+             );
+         }
+     }
 
-// Check if the "marks" table exists
-$tableCheckSql = "SHOW TABLES LIKE 'marks'";
-$tableCheckResult = $conn->query($tableCheckSql);
+     // Check if the "marks" table exists
+     $tableCheckSql = "SHOW TABLES LIKE 'marks'";
+     $tableCheckResult = $conn->query($tableCheckSql);
 
-if ($tableCheckResult->num_rows == 0) {
-    // "marks" table does not exist, so create it
-    $sql = "CREATE TABLE marks (
+     if ($tableCheckResult->num_rows == 0) {
+         // "marks" table does not exist, so create it
+         $sql = "CREATE TABLE marks (
         Regno BIGINT(12) NOT NULL UNSIGNED PRIMARY KEY, 
         Name VARCHAR(50) NOT NULL,
         Sem1 VARCHAR(100),
@@ -157,45 +160,72 @@ if ($tableCheckResult->num_rows == 0) {
         Sem8 VARCHAR(100),
         Total INT(3) UNSIGNED )";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Table marks created successfully", '<br>';
-    } else {
-        echo "Error creating table: " . $conn->error;
-    }
-} else {
-   
-}
+         if ($conn->query($sql) === true) {
+             echo "Table marks created successfully", "<br>";
+         } else {
+             echo "Error creating table: " . $conn->error;
+         }
+     } else {
+     }
 
+     if (isset($_POST["CreateNew"])) {
+         // Insert operation for "Create New" button
+         $insertSql =
+             "INSERT INTO Marks (Name, RegNo, Sem1, Sem2, Sem3, Sem4, Sem5, Sem6, Sem7, Sem8, Total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+         $stmt = $conn->prepare($insertSql);
+         $stmt->bind_param(
+             "ssssssssssi",
+             $name,
+             $regNo,
+             $_POST["Sem1"],
+             $_POST["Sem2"],
+             $_POST["Sem3"],
+             $_POST["Sem4"],
+             $_POST["Sem5"],
+             $_POST["Sem6"],
+             $_POST["Sem7"],
+             $_POST["Sem8"],
+             $totalMarks
+         );
 
+         if ($stmt->execute()) {
+             echo "Data inserted successfully!";
+         } else {
+             echo "Error: " . $stmt->error;
+         }
+     } elseif (isset($_POST["UpdateOld"])) {
+         // Update operation for "Update Old" button
+         $updateSql =
+             "UPDATE Marks SET Sem1 = ?, Sem2 = ?, Sem3 = ?, Sem4 = ?, Sem5 = ?, Sem6 = ?, Sem7 = ?, Sem8 = ?, Total = ? WHERE RegNo = ? AND Name = ?";
+         $stmt = $conn->prepare($updateSql);
+         $stmt->bind_param(
+             "ssssssssiss",
+             $_POST["Sem1"],
+             $_POST["Sem2"],
+             $_POST["Sem3"],
+             $_POST["Sem4"],
+             $_POST["Sem5"],
+             $_POST["Sem6"],
+             $_POST["Sem7"],
+             $_POST["Sem8"],
+             $totalMarks,
+             $regNo,
+             $name
+         );
 
-        if (isset($_POST["CreateNew"])) {
-            // Insert operation for "Create New" button
-            $insertSql = "INSERT INTO Marks (Name, RegNo, Sem1, Sem2, Sem3, Sem4, Sem5, Sem6, Sem7, Sem8, Total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($insertSql);
-            $stmt->bind_param("ssssssssssi", $name, $regNo, $_POST["Sem1"], $_POST["Sem2"], $_POST["Sem3"], $_POST["Sem4"], $_POST["Sem5"], $_POST["Sem6"], $_POST["Sem7"], $_POST["Sem8"], $totalMarks);
+         if ($stmt->execute()) {
+             echo "Data updated successfully!";
+         } else {
+             echo "Error: " . $stmt->error;
+         }
+     }
 
-            if ($stmt->execute()) {
-                echo "Data inserted successfully!";
-            } else {
-                echo "Error: " . $stmt->error;
-            }
-        } elseif (isset($_POST["UpdateOld"])) {
-            // Update operation for "Update Old" button
-            $updateSql = "UPDATE Marks SET Sem1 = ?, Sem2 = ?, Sem3 = ?, Sem4 = ?, Sem5 = ?, Sem6 = ?, Sem7 = ?, Sem8 = ?, Total = ? WHERE RegNo = ? AND Name = ?";
-            $stmt = $conn->prepare($updateSql);
-            $stmt->bind_param("ssssssssiss", $_POST["Sem1"], $_POST["Sem2"], $_POST["Sem3"], $_POST["Sem4"], $_POST["Sem5"], $_POST["Sem6"], $_POST["Sem7"], $_POST["Sem8"], $totalMarks, $regNo, $name);
+     $stmt->close();
+     $conn->close();
+ }
 
-            if ($stmt->execute()) {
-                echo "Data updated successfully!";
-            } else {
-                echo "Error: " . $stmt->error;
-            }
-        }
+?>
 
-        $stmt->close();
-        $conn->close();
-    }
-    ?>
 
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <div class="form-group">

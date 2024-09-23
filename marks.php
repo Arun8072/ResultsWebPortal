@@ -3,21 +3,21 @@
 <head>
 <?php
 // Check if RegNo is set; otherwise, redirect to index.html
-if(!isset($_GET['RegNo'])){
+if (!isset($_GET["RegNo"])) {
     exit(header("Location:index.html"));
 }
 
 // Database connection details
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mark";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "mark";
 
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Extract and sanitize Register Number
-$r = preg_replace("/[^0-9]/", "", $_GET['RegNo']);
+$r = preg_replace("/[^0-9]/", "", $_GET["RegNo"]);
 
 // SQL query to select all columns from Marks table for the given Register Number
 $sql = "SELECT * FROM Marks WHERE Regno='$r'";
@@ -137,7 +137,7 @@ $s1 = explode(",", $r["Sem1"]);
 $s2 = explode(",", $r["Sem2"]);
 $s3 = explode(",", $r["Sem3"]);
 $s4 = explode(",", $r["Sem4"]);
-$s5 = explode(",", $r["Sem5"]); 
+$s5 = explode(",", $r["Sem5"]);
 $s6 = explode(",", $r["Sem6"]);
 $s7 = explode(",", $r["Sem7"]);
 $s8 = explode(",", $r["Sem8"]);
@@ -152,30 +152,32 @@ for ($j = 0; $j < count($ar); $j++) {
 
 // Loop through subjects and display in the table
 for ($i = 0; $i < $max_count; $i++) {
-    echo '<tr>';
+    echo "<tr>";
     foreach ($ar as $ss) {
         // Check if the subject at index $i exists, otherwise display '-'
         if (isset($ss[$i])) {
-            echo '<td> <div class="tooltip">' . ucfirst($ss[$i]) . '<span class="tooltiptext">Subject</span></div></td>';
+            echo '<td> <div class="tooltip">' .
+                ucfirst($ss[$i]) .
+                '<span class="tooltiptext">Subject</span></div></td>';
         } else {
             echo '<td class=""> - </td>';
         }
     }
-    echo '</tr>';
+    echo "</tr>";
 }
 
 // Display the total count for each semester
 echo '<tr style="text-align:center;">';
 for ($k = 0; $k < count($ar); $k++) {
-    if ($ar[$k][0] != "" ) {
-        echo '<td>' . count($ar[$k]) . '</td>';
+    if ($ar[$k][0] != "") {
+        echo "<td>" . count($ar[$k]) . "</td>";
     } else {
-        echo '<td>' . "0" . '</td>';
+        echo "<td>" . "0" . "</td>";
     }
 }
-echo ' </tr>';
+echo " </tr>";
 
-echo '</tbody> </table> </center> ';
+echo "</tbody> </table> </center> ";
 
 // Following content is displayed only on mobile
 echo "";
@@ -183,23 +185,27 @@ echo '<center id="atl" >';
 $ar = [$s1, $s2, $s3, $s4, $s5, $s6, $s7, $s8];
 $i = 0;
 foreach ($ar as $ss) {
-    echo '<article><div>Sem' . ++$i . '</div><hr>';
+    echo "<article><div>Sem" . ++$i . "</div><hr>";
     foreach ($ss as $s) {
-        echo '<section><div class="tooltip">' . ucfirst($s) . '<span class="tooltiptext">Subject</span></div></section>';
+        echo '<section><div class="tooltip">' .
+            ucfirst($s) .
+            '<span class="tooltiptext">Subject</span></div></section>';
     }
-    echo '<section>';
-    if ($ss[0] !== "" ) {
-        echo '<td>' . count($ss) . '</td>';
+    echo "<section>";
+    if ($ss[0] !== "") {
+        echo "<td>" . count($ss) . "</td>";
     } else {
-        echo '<td>' . "0" . '</td>';
+        echo "<td>" . "0" . "</td>";
     }
-    echo '</section></article>';
+    echo "</section></article>";
 }
-echo '</center>';
+echo "</center>";
 
 // Create a button to download the page as PDF
 $reg = $_GET["RegNo"];
-echo '<br><br><center> <button style="font-size:20px; border-radius:5px;"> <a style="color:grey; text-decoration:none;" href="create_pdf.php?RegNo=' . $reg . '">Download Page »</a> </button> </center> <br>';
+echo '<br><br><center> <button style="font-size:20px; border-radius:5px;"> <a style="color:grey; text-decoration:none;" href="create_pdf.php?RegNo=' .
+    $reg .
+    '">Download Page »</a> </button> </center> <br>';
 ?>
 
 <!-- JavaScript to dynamically update tooltips with subject names -->
