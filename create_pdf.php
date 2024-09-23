@@ -115,8 +115,15 @@ $pdf->SetFont('Arial','',14);
 $pdf->AddPage();
 
 /*===================================================*/
+// Database connection details
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "mark";
 
-$conn = new mysqli("localhost", "id21666751_markdatabase", "Arun_marks1.4", "id21666751_marks");
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
 
 $r=preg_replace("/[^0-9]/", "",$_GET['RegNo']);
 //$n=$_GET['Name'];

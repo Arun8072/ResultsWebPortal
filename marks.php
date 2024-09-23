@@ -7,8 +7,14 @@ if(!isset($_GET['RegNo'])){
     exit(header("Location:index.html"));
 }
 
-// Create a new MySQLi connection
-$conn = new mysqli("localhost", "id21666751_markdatabase", "Arun_marks1.4", "id21666751_marks");
+// Database connection details
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "mark";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Extract and sanitize Register Number
 $r = preg_replace("/[^0-9]/", "", $_GET['RegNo']);
@@ -256,7 +262,7 @@ echo '<br><br><center> <button style="font-size:20px; border-radius:5px;"> <a st
             elem = Element[u].innerText.replace("Subject", "").trim().toUpperCase();
             sub = $data[v][1].trim().toUpperCase();
             if (elem == sub) {
-                console.log(elem);
+                //console.log(elem);
                 Element[u].querySelector("span").innerHTML = $data[v][2].trim().toUpperCase();
             }
         }

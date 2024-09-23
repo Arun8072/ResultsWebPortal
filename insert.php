@@ -14,7 +14,14 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 */
-$conn = new  mysqli("localhost", "id21666751_markdatabase", "Arun_marks1.4" , "id21666751_marks");
+// Database connection details
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "mark";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {

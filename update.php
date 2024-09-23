@@ -108,9 +108,9 @@
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Database connection details
         $servername = "localhost";
-        $username = "id21666751_markdatabase";
-        $password = "Arun_marks1.4";
-        $dbname = "id21666751_marks";
+        $username = "root";
+        $password = "";
+        $dbname = "mark";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
